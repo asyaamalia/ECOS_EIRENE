@@ -13,13 +13,13 @@ html {
 .logo {
   font-family: "superkids";
   font-size: 32px;
-  color: #eef2e2;
+  color: #B59F78;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
 nav {
-  background-color:B59F78;
+  background-color:#B59F78;
   justify-content: space-between;
   display: flex;
   align-items: center;
