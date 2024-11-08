@@ -1,31 +1,28 @@
 /* Place your CSS styles in this file */
-body {background-color:blanchedalmond;
-border:5px solid darksalmon;
-border-radius: 15px;
+html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-ul {
-    list-style-type: none;
-    background-color:rgb(255, 255, 255);
-    border: 5px solid darksalmon;
+@font-face {
+  font-family: "superkids";
+  src: url(Super\ Kinds.ttf);
 }
 
-li {
-    
-    display: inline;
-
+.logo {
+  font-family: "superkids";
+  font-size: 32px;
+  color: #eef2e2;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
-h1 {
-    text-align: center;
-    font-family: "Source Sans Pro", sans-serif;
-    font-weight: bolder;
-    font-size: 35px;
-    } 
-
-    p {font-size: 30px;
-    color: chocolate;
-    }
-
-img{display: block;
-margin: auto;}
+nav {
+  background-color: #0093ce;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 2rem;
+}
