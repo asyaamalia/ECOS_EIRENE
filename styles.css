@@ -19,7 +19,7 @@ html {
 }
 
 nav {
-  background-color: #2b2a29;
+  background-color: #b00a6b;
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -56,8 +56,8 @@ nav ul li a:hover {
   .title {
     font-size: 24px;
     font-weight: bold;
-    color: #2b2a29;
-    border-bottom: 3px solid #2b2a29;
+    color:#b00a6b;
+    border-bottom: 3px solid #b00a6b;
     display: inline-block;
     margin-bottom: 20px;
   }
@@ -89,5 +89,4 @@ nav ul li a:hover {
     padding-top: 80px;
   }
 
-  a herf {size-adjust: 80px;}
   
