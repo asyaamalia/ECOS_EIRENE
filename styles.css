@@ -1,32 +1,93 @@
-
-/* Place your CSS styles in this file */
-body {background-color:blanchedalmond;
-border:5px solid darksalmon;
-border-radius: 15px;
+*,
+html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-ul {
-    list-style-type: none;
-    background-color:rgb(255, 255, 255);
-    border: 5px solid darksalmon;
+@font-face {
+  font-family: "superkids";
+  src: url(Super\ Kinds.ttf);
 }
 
-li {
-    
-    display: inline;
-
+.logo {
+  font-family: "superkids";
+  font-size: 32px;
+  color: #eef2e2;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
-h1 {
-    text-align: center;
-    font-family: "Source Sans Pro", sans-serif;
-    font-weight: bolder;
-    font-size: 35px;
-    } 
+nav {
+  background-color: #2b2a29;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 2rem;
+}
 
-    p {font-size: 30px;
-    color: chocolate;
-    }
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  gap: 1rem;
+}
 
-img{display: block;
-margin: auto;}
+nav ul li a {
+  text-decoration: none;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  color: #eef2e2;
+  font-weight: 600;
+  padding: 8px;
+  transition: all;
+  transition-duration: 500ms;
+  border-bottom: 1px solid #00000000;
+}
+
+nav ul li a:hover {
+  border-bottom: 1px solid #D8DBBD;
+}
+
+.container {
+    padding: 200px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #B59F78;
+    border-bottom: 3px solid #B59F78;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .content.p {
+    font-size: 25px;
+    color: #000000;
+    line-height: 1.6;
+    word-spacing: 3px;
+  }
+
+  main {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+  }
+  
+  main > section {
+    height: 100vh;
+    background: #fff;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  
+  main > #section-2 .head {
+    display: flex;
+    position: relative;
+    justify-content: space-evenly;
+    padding-top: 80px;
+  }
+
+  a herf {size-adjust: 80px;}
+  
