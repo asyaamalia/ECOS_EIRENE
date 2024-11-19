@@ -19,7 +19,7 @@ html {
 }
 
 nav {
-  background-color: #b00a6b;
+  background-color:#a64980;
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -56,8 +56,8 @@ nav ul li a:hover {
   .title {
     font-size: 24px;
     font-weight: bold;
-    color:#b00a6b;
-    border-bottom: 3px solid #b00a6b;
+    color:#a64980;
+    border-bottom: 3px solid #a64980;
     display: inline-block;
     margin-bottom: 20px;
   }
@@ -87,6 +87,11 @@ nav ul li a:hover {
     position: relative;
     justify-content: space-evenly;
     padding-top: 80px;
+  }
+
+  img {
+    display: auto;
+    margin:auto;
   }
 
   
