@@ -1,33 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-<head></head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ECOS EIRENE </title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.google.com/specimen/Josefin+Sans"/>
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Spicy+Rice&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECOS EIRENE - Trash Catcher</title>
+
+  <!-- Font dan CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&family=Mountains+of+Christmas:wght@400;700&family=Spicy+Rice&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: rgb(254, 212, 255);
+    }
+
+    nav {
+      background-color: #a64980;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .logo p {
+      color: white;
+      font-family: 'Spicy Rice', cursive;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    canvas {
+      border: 3px solid black;
+      background-color: transparent;
+      display: block;
+      margin: 20px auto;
+    }
+
+    #scoreboard {
+      text-align: center;
+      font-size: 18px;
+      color: #000;
+    }
+
+    #play-again {
+      display: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 20px auto;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Londrina Solid', cursive;
+      font-size: 32px;
+      margin-top: 20px;
+      color: #a64980;
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">
-            <p>ECOS EIRENE</p>
-        </div> 
-        <ul>
-            <li><a href="index.html">Beranda</a></li>
-            <li><a href="index.html">Tentang Kami</a></li>
-            <li><a href="Proses_design.html">Desain Produk</a></li>
-            <li><a href="produk.html">Produk</a></li>
-        </ul>
-    </nav>
 
-    </body>
+  <!-- Navigasi -->
+  <nav>
+    <div class="logo">
+      <p>ECOS EIRENE</p>
+    </div>
+    <ul>
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="index.html">Tentang Kami</a></li>
+      <li><a href="Proses_design.html">Desain Produk</a></li>
+      <li><a href="produk.html">Produk</a></li>
+    </ul>
+  </nav>
+
+  <!-- Judul Game -->
+  <h2>Trash Catcher Game</h2>
+
+  <!-- Canvas dan Skor -->
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <div id="scoreboard">
+    Score: <span id="score">0</span> |
+    Lives: <span id="lives">3</span> |
+    High Score: <span id="high-score">0</span>
+  </div>
+  <button id="play-again">Play Again</button>
+
+  <!-- Game Script -->
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const basketImg = new Image();
+    basketImg.src = "tong_sampah.png";
+
+    const trashImgs = ["kaleng.png", "paprika.png", "cone.png", "kertas.png", "ikan.png"];
+    const loadedTrashImages = trashImgs.map(src => {
+      const img = new Image();
+      img.src = src;
+      return img;
+    });
+
+    let basketX = 160;
+    const basketY = 350;
+    const basketWidth = 80;
+    const basketHeight = 40;
+
+    let trashItems = [];
+    let score = 0;
+    let lives = 3;
+    let highScore = localStorage.getItem("trashHighScore") || 0;
+    let gameOver = false;
+
+    document.getElementById("high-score").textContent = highScore;
+
+    function drawBackground() {
+      ctx.fillStyle = "skyblue";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "lightgreen";
+      ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+    }
+
+    function drawBasket() {
+      ctx.drawImage(basketImg, basketX, basketY, basketWidth, basketHeight);
+    }
+
+    function drawTrash() {
+      trashItems.forEach(item => {
+        ctx.drawImage(item.img, item.x, item.y, 30, 30);
+      });
+    }
+
+    function spawnTrash() {
+      if (!gameOver) {
+        const img = loadedTrashImages[Math.floor(Math.random() * loadedTrashImages.length)];
+        const x = Math.random() * (canvas.width - 30);
+        trashItems.push({ x, y: 0, img });
+      }
+    }
+
+    function updateTrash() {
+      trashItems.forEach((item, index) => {
+        item.y += 3;
+
+        if (
+          item.y + 30 >= basketY &&
+          item.x + 15 > basketX &&
+          item.x + 15 < basketX + basketWidth
+        ) {
+          score++;
+          trashItems.splice(index, 1);
+          document.getElementById("score").textContent = score;
+
+          if (score > highScore) {
+            highScore = score;
+            localStorage.setItem("trashHighScore", highScore);
+            document.getElementById("high-score").textContent = highScore;
+          }
+        } else if (item.y > canvas.height) {
+          lives--;
+          trashItems.splice(index, 1);
+          document.getElementById("lives").textContent = lives;
+
+          if (lives === 0) {
+            gameOver = true;
+            showGameOver();
+          }
+        }
+      });
+    }
+
+    function draw() {
+      drawBackground();
+      drawBasket();
+      drawTrash();
+      updateTrash();
+      if (!gameOver) {
+        requestAnimationFrame(draw);
+      }
+    }
+
+    function showGameOver() {
+      ctx.fillStyle = "red";
+      ctx.font = "30px Arial";
+      ctx.fillText("Game Over", 120, 200);
+      document.getElementById("play-again").style.display = "inline-block";
+    }
+
+    function resetGame() {
+      score = 0;
+      lives = 3;
+      trashItems = [];
+      gameOver = false;
+      document.getElementById("score").textContent = score;
+      document.getElementById("lives").textContent = lives;
+      document.getElementById("play-again").style.display = "none";
+      draw();
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") {
+        basketX = Math.max(0, basketX - 20);
+      } else if (e.key === "ArrowRight") {
+        basketX = Math.min(canvas.width - basketWidth, basketX + 20);
+      }
+    });
+
+    document.getElementById("play-again").addEventListener("click", resetGame);
+
+    setInterval(spawnTrash, 2000);
+    draw();
+  </script>
+</body>
 </html>

@@ -17,14 +17,13 @@ html {
   padding-bottom: 1rem;
 }
 
-nav {
-  background-color: #a64980;
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  padding: 1rem 2rem;
-}
+ nav {
+      background-color: #a64980;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
 nav ul {
   display: flex;
@@ -54,7 +53,7 @@ nav ul li a:hover {
 }
 
 #tentang-eirene {
-  background-color: #f9f9f9;
+  background-color:rgb(254, 212, 255);
   padding: 60px 20px;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -85,7 +84,7 @@ nav ul li a:hover {
   flex: 1 1 600px; }
 
 #tentang {
-  background-color: #f9f9f9;
+  background-color:rgb(254, 212, 255);
   padding: 60px 0;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -176,9 +175,18 @@ main > section {
   background: #fff;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
 }
+
+#design{
+  background-color: rgb(254, 212, 255);
+  padding: 60px 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 
 img {
   display: block;
   margin: auto;
 }
+
