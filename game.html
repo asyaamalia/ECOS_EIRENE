@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trash Catcher Game</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: skyblue;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      border: 3px solid #a64980;
+      background-color: transparent;
+      display: block;
+      margin: 20px auto;
+    }
+
+    #scoreboard {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    #play-again {
+      display: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Trash Catcher Game</h2>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+
+<div id="scoreboard">
+  Score: <span id="score">0</span> |
+  Lives: <span id="lives">3</span> |
+  High Score: <span id="high-score">0</span>
+</div>
+
+<button id="play-again">Play Again</button>
+
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const basketImg = new Image();
+  basketImg.src = "tong_sampah.png";
+
+  const trashImgs = ["kaleng.png", "paprika.png", "cone.png", "kertas.png", "ikan.png"];
+  const loadedTrashImages = trashImgs.map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
+
+  let basketX = 160;
+  const basketY = 350;
+  const basketWidth = 80;
+  const basketHeight = 40;
+
+  let trashItems = [];
+  let score = 0;
+  let lives = 3;
+  let highScore = localStorage.getItem("trashHighScore") || 0;
+  let gameOver = false;
+
+  document.getElementById("high-score").textContent = highScore;
+
+  function drawBackground() {
+    // Sky
+    ctx.fillStyle = "skyblue";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Ground (tanah)
+    ctx.fillStyle = "lightgreen";
+    ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+  }
+
+  function drawBasket() {
+    ctx.drawImage(basketImg, basketX, basketY, basketWidth, basketHeight);
+  }
+
+  function drawTrash() {
+    trashItems.forEach(item => {
+      ctx.drawImage(item.img, item.x, item.y, 30, 30);
+    });
+  }
+
+  function spawnTrash() {
+    if (!gameOver) {
+      const img = loadedTrashImages[Math.floor(Math.random() * loadedTrashImages.length)];
+      const x = Math.random() * (canvas.width - 30);
+      trashItems.push({ x, y: 0, img });
+    }
+  }
+
+  function updateTrash() {
+    trashItems.forEach((item, index) => {
+      item.y += 3;
+
+      // Catch logic
+      if (
+        item.y + 30 >= basketY &&
+        item.x + 15 > basketX &&
+        item.x + 15 < basketX + basketWidth
+      ) {
+        score++;
+        trashItems.splice(index, 1);
+        document.getElementById("score").textContent = score;
+
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("trashHighScore", highScore);
+          document.getElementById("high-score").textContent = highScore;
+        }
+      }
+
+      // Missed
+      else if (item.y > canvas.height) {
+        lives--;
+        trashItems.splice(index, 1);
+        document.getElementById("lives").textContent = lives;
+
+        if (lives === 0) {
+          gameOver = true;
+          showGameOver();
+        }
+      }
+    });
+  }
+
+  function draw() {
+    drawBackground();
+    drawBasket();
+    drawTrash();
+    updateTrash();
+
+    if (!gameOver) {
+      requestAnimationFrame(draw);
+    }
+  }
+
+  function showGameOver() {
+    ctx.fillStyle = "red";
+    ctx.font = "30px Arial";
+    ctx.fillText("Game Over", 120, 200);
+    document.getElementById("play-again").style.display = "inline-block";
+  }
+
+  function resetGame() {
+    score = 0;
+    lives = 3;
+    trashItems = [];
+    gameOver = false;
+    document.getElementById("score").textContent = score;
+    document.getElementById("lives").textContent = lives;
+    document.getElementById("play-again").style.display = "none";
+    draw();
+  }
+
+  // Control
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") {
+      basketX = Math.max(0, basketX - 20);
+    } else if (e.key === "ArrowRight") {
+      basketX = Math.min(canvas.width - basketWidth, basketX + 20);
+    }
+  });
+
+  document.getElementById("play-again").addEventListener("click", resetGame);
+
+  setInterval(spawnTrash, 2000); // Sama seperti egg_interval: 2000ms
+
+  draw();
+</script>
+
+</body>
+</html>
