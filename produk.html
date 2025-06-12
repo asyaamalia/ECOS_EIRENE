@@ -68,16 +68,30 @@
       color: #000;
     }
 
-    #play-again {
+    #play-again, #visit-hf {
       display: none;
       padding: 10px 20px;
       font-size: 16px;
-      margin: 20px auto;
+      margin: 10px auto;
       cursor: pointer;
-      background-color: #4CAF50;
-      color: white;
       border: none;
       border-radius: 5px;
+      text-align: center;
+    }
+
+    #play-again {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #visit-hf {
+      background-color: #a64980;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    #visit-hf:hover {
+      background-color: #8a3b6a;
     }
 
     h2 {
@@ -115,10 +129,12 @@
     High Score: <span id="high-score">0</span>
   </div>
   <button id="play-again">Play Again</button>
+  <button id="visit-hf" onclick="window.open('https://huggingface.co/spaces/Eecoss/EcosEirene', '_blank')">
+    Kunjungi Ecos Eirene di Hugging Face
+  </button>
 
   <!-- Game Script -->
-  <script src="'game.html'"></script>
-    <script>
+  <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -216,6 +232,7 @@
       ctx.font = "30px Arial";
       ctx.fillText("Game Over", 120, 200);
       document.getElementById("play-again").style.display = "inline-block";
+      document.getElementById("visit-hf").style.display = "inline-block";
     }
 
     function resetGame() {
@@ -226,6 +243,7 @@
       document.getElementById("score").textContent = score;
       document.getElementById("lives").textContent = lives;
       document.getElementById("play-again").style.display = "none";
+      document.getElementById("visit-hf").style.display = "none";
       draw();
     }
 
